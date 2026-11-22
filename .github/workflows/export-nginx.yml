@@ -1,0 +1,21 @@
+name: Export Nginx Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull nginx image
+        run: docker pull nginx:alpine
+
+      - name: Save nginx image
+        run: docker save nginx:alpine | gzip > nginx-alpine.tar.gz
+
+      - name: Upload image
+        uses: actions/upload-artifact@v4
+        with:
+          name: nginx-alpine
+          path: nginx-alpine.tar.gz
